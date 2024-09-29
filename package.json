@@ -17,6 +17,7 @@
     "@uidotdev/usehooks": "^2.4.1-experimental.1",
     "add-to-calendar-button-react": "^2.5.9",
     "dayjs": "^1.11.10",
+    "dotenv": "^16.4.5",
     "env-cmd": "^10.1.0",
     "gh-pages": "^6.1.1",
     "nanoid": "^5.0.7",
