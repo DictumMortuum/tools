@@ -10,6 +10,7 @@ import { UserProvider } from './context';
 import { ThemeProvider } from '@mui/material/styles';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import Layout from './components/Layout';
+import Wishlists from './components/Wishlist/Lists';
 import Wishlist from './components/Wishlist';
 import WishlistCreate from './components/Wishlist/Create';
 import { theme } from './theme';
@@ -25,8 +26,9 @@ const App = () => {
             <HashRouter>
               <Routes>
                 <Route path="/" element={<Layout />}>
-                  <Route index element={<Wishlist />} />
+                  <Route index element={<Wishlists />} />
                   <Route path="/wishlist/create" element={<WishlistCreate />} />
+                  <Route path="/wishlist/:email" element={<Wishlist />} />
                   <Route path="/auth/reset-password" element={<Reset />} />
                   <Route path="/auth/login" element={<Login />} />
                   <Route path="/profile" element={<Profile />} />

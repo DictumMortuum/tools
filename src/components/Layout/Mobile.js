@@ -9,23 +9,9 @@ import Snackbar from './Snackbar';
 import AppBar from '@mui/material/AppBar';
 import BottomNavigation from '@mui/material/BottomNavigation';
 import BottomNavigationAction from '@mui/material/BottomNavigationAction';
-import AddIcon from '@mui/icons-material/Add';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
-import { useLocation } from 'react-router-dom';
-import { styled } from '@mui/material/styles';
-import Fab from '@mui/material/Fab';
-
-const StyledFab = styled(Fab)({
-  margin: 0,
-  top: 'auto',
-  right: 20,
-  bottom: 80,
-  left: 'auto',
-  position: 'fixed',
-});
 
 const Component = ({ email, onLogout, state, setState }) => {
-  const { pathname } = useLocation();
   const [value, setValue] = React.useState(0);
 
   return (
@@ -33,9 +19,6 @@ const Component = ({ email, onLogout, state, setState }) => {
       <Outlet />
       <Drawer state={state} setState={setState} />
       <AppBar position="fixed" color="primary" sx={{ top: 'auto', bottom: 0 }}>
-        {pathname === "/" && <StyledFab color="secondary" aria-label="add" component={Link} to="/create">
-          <AddIcon sx={{ color: "white"}} />
-        </StyledFab>}
         <BottomNavigation
           showLabels
           value={value}

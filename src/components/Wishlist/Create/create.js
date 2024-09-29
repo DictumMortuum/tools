@@ -89,7 +89,7 @@ const Component = () => {
         </FormGroup>
       </ListItem>
       <ListItem>
-        <Button variant="contained" onClick={handleClick} disabled={isPending}>
+        <Button variant="outlined" onClick={handleClick} disabled={isPending}>
           Create
         </Button>
       </ListItem>

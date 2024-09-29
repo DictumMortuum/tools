@@ -20,7 +20,7 @@ const Component = ({ name, url, id, reserved }) => {
         </Typography>
       </CardContent>
       <CardActions>
-        <Button variant="contained" disabled={reserved}>
+        <Button variant="outlined" disabled={reserved}>
           Reserve
         </Button>
         {/* <Button disabled={reserved} size="small">Reserve</Button> */}
