@@ -3,7 +3,6 @@ import TextField from '@mui/material/TextField';
 import Switch from '@mui/material/Switch';
 import FormGroup from '@mui/material/FormGroup';
 import FormControlLabel from '@mui/material/FormControlLabel';
-import { useEmail } from '../../../hooks/useEmail';
 import { useQueryClient, useMutation } from '@tanstack/react-query';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { UserContext } from '../../../context';
@@ -14,8 +13,7 @@ import {
 } from '@mui/material';
 
 const Component = () => {
-  const { state: { wishlist: { name, url, reserved, screenshot } }, setMsg, setOpen, dispatch } = React.useContext(UserContext);
-  const { user_id, email } = useEmail();
+  const { state: { user: { user_id, email }, wishlist: { name, url, reserved, screenshot } }, setMsg, setOpen, dispatch } = React.useContext(UserContext);
   const queryClient = useQueryClient();
   const navigate = useNavigate();
   const { pathname } = useLocation();
@@ -73,6 +71,8 @@ const Component = () => {
       reserved,
       name,
     });
+
+    navigate(`/wishlist/${email}`)
   }
 
   return (

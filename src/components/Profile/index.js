@@ -1,8 +1,8 @@
 import React from 'react';
 import { Grid } from '@mui/material';
-import { useEmail } from '../../hooks/useEmail';
 import Picture from './Picture';
 import { useQuery } from '@tanstack/react-query';
+import { UserContext } from '../../context';
 
 const fetchPlayer = async ({ email }) => {
   const rs = await fetch(`${process.env.REACT_APP_ENDPOINT}/rest/players/email/${email}`, {
@@ -14,7 +14,7 @@ const fetchPlayer = async ({ email }) => {
 }
 
 const Container = () => {
-  const { email } = useEmail();
+  const { state: { user: { email } } } = React.useContext(UserContext);
 
   const { data, isLoading }= useQuery({
     queryKey: ["player", email],

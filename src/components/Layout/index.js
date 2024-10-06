@@ -1,14 +1,14 @@
 import React from 'react';
 import { authProvider } from 'servus-react-login';
-import { useEmail } from '../../hooks/useEmail';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import Desktop from './Desktop';
 import Mobile from './Mobile';
+import { UserContext } from '../../context';
 
 const Component = () => {
   const matches = useMediaQuery((theme) => theme.breakpoints.up('sm'));
   const [state, setState] = React.useState(false);
-  const { email } = useEmail();
+  const { state: { user: { email } } } = React.useContext(UserContext);
 
   let splitted;
   if (email !== null) {

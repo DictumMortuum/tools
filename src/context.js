@@ -15,6 +15,34 @@ const urlToScreenshot = url => {
   return req.href;
 }
 
+const parseLoginCookie = () => {
+  const raw = localStorage.getItem('auth');
+  const auth = JSON.parse(raw);
+
+  if (auth === null) {
+    return {
+      email: null,
+      user_id: null,
+    }
+  }
+
+  const { status } = auth;
+
+  if (status !== "OK") {
+    return {
+      email: null,
+      user_id: null,
+    }
+  }
+
+  const { user: { id, email }} = auth;
+
+  return {
+    email,
+    user_id: id,
+  }
+}
+
 const reducer = (state, action) => {
   switch (action.type) {
 
@@ -49,6 +77,13 @@ const reducer = (state, action) => {
       }
     }
 
+    case "user::set": {
+      return {
+        ...state,
+        user: parseLoginCookie(),
+      }
+    }
+
     default: {
       return {
         ...state,
@@ -58,12 +93,11 @@ const reducer = (state, action) => {
 }
 
 export const UserProvider = ({ children }) => {
-  const [email, setEmail] = React.useState(null);
-  const [user_id, setUserId] = React.useState(null);
   const [open, setOpen] = React.useState(false);
   const [msg, setMsg] = React.useState("");
   const [loading, setLoading] = React.useState(true);
   const [state, dispatch] = React.useReducer(reducer, {
+    user: parseLoginCookie(),
     wishlist: {
       name: "",
       reserved: false,
@@ -74,10 +108,6 @@ export const UserProvider = ({ children }) => {
 
   return (
     <UserContext.Provider value={{
-      email,
-      setEmail,
-      user_id,
-      setUserId,
       open,
       setOpen,
       msg,

@@ -9,7 +9,7 @@ const fetchWishlist = async ({ email }) => {
 }
 
 const Container = ({ email }) => {
-  const { data, isLoading }= useQuery({
+  const { data, isLoading } = useQuery({
     queryKey: ["wishlist", email],
     queryFn: () => fetchWishlist({ email }),
     enabled: !!email,
