@@ -31,7 +31,7 @@ const Component = ({ data }) => {
         </Box>
       </Grid>
       {data.map((d, i) => (
-        <Grid item xs={6} key={i}>
+        <Grid item xs={12} key={i}>
           <Item email={d} />
         </Grid>
       ))}

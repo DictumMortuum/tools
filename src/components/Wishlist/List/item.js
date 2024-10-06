@@ -5,8 +5,46 @@ import CardContent from '@mui/material/CardContent';
 import CardMedia from '@mui/material/CardMedia';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
+import { useQueryClient, useMutation } from '@tanstack/react-query';
+import { UserContext } from '../../../context';
 
-const Component = ({ name, url, id, reserved }) => {
+const Component = ({ item }) => {
+  const { id, url, reserved, name } = item;
+  const { setMsg, setOpen } = React.useContext(UserContext);
+  const queryClient = useQueryClient();
+
+  const reserveWishlistItem = payload => {
+    return fetch(`${process.env.REACT_APP_ENDPOINT}/rest/wishlist/${id}`, {
+      method: "PUT",
+      body: JSON.stringify(payload),
+    }).then(res => res.json());
+  }
+
+  const { isPending, mutate } = useMutation({
+    mutationFn: reserveWishlistItem,
+    onSuccess: (data, variables, context) => {
+      queryClient.invalidateQueries({ queryKey: ['wishlist'] });
+    },
+    onError: (error, variables, context) => {
+      setMsg("Something went wrong, please try again.");
+      setOpen(true);
+    }
+  });
+
+  const handleReserve = () => {
+    mutate({
+      ...item,
+      reserved: true,
+    });
+  }
+
+  const handleUnreserve = () => {
+    mutate({
+      ...item,
+      reserved: false,
+    });
+  }
+
   return (
     <Card>
       <CardMedia
@@ -20,11 +58,13 @@ const Component = ({ name, url, id, reserved }) => {
         </Typography>
       </CardContent>
       <CardActions>
-        <Button variant="outlined" disabled={reserved}>
+        {!reserved && <Button variant="contained" disabled={isPending} onClick={handleReserve}>
           Reserve
-        </Button>
-        {/* <Button disabled={reserved} size="small">Reserve</Button> */}
-        <Button href={url} size="small">Learn More</Button>
+        </Button>}
+        {reserved && <Button variant="outlined" disabled={isPending} color="error" onClick={handleUnreserve}>
+          Reserved
+        </Button>}
+        <Button href={url} size="small">Link</Button>
       </CardActions>
     </Card>
   );

@@ -26,8 +26,8 @@ const Component = ({ data }) => {
   return (
     <Grid container spacing={2} mt={1}>
       {data.map((d, i) => (
-        <Grid item xs={6} key={i}>
-          <Item {...d} />
+        <Grid item md={6} xs={12} key={i}>
+          <Item item={d} />
         </Grid>
       ))}
     </Grid>
