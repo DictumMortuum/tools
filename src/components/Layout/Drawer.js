@@ -6,16 +6,12 @@ import ListItem from '@mui/material/ListItem';
 import ListItemButton from '@mui/material/ListItemButton';
 import ListItemText from '@mui/material/ListItemText';
 import ListItemIcon from '@mui/material/ListItemIcon';
-import FavoriteIcon from '@mui/icons-material/Favorite';
 import { Link } from "react-router-dom";
-
-const components = [{
-  name: "Wishlist",
-  link: "/",
-  component: <FavoriteIcon />,
-}];
+import { UserContext } from '../../context';
 
 const Drawer = ({ state, setState }) => {
+  const { state: { user: { components } } } = React.useContext(UserContext);
+
   const toggleDrawer = (open) => (event) => {
     if (
       event &&
@@ -58,6 +54,3 @@ const Drawer = ({ state, setState }) => {
 }
 
 export default Drawer;
-export {
-  components
-};

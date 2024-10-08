@@ -13,6 +13,7 @@ import Layout from './components/Layout';
 import Wishlists from './components/Wishlist/Lists';
 import Wishlist from './components/Wishlist';
 import WishlistCreate from './components/Wishlist/Create';
+import Index from './components/Index';
 import { theme } from './theme';
 
 const App = () => {
@@ -26,9 +27,10 @@ const App = () => {
             <HashRouter>
               <Routes>
                 <Route path="/" element={<Layout />}>
-                  <Route index element={<Wishlists />} />
+                  <Route index element={<Index />} />
                   <Route path="/wishlist/create" element={<WishlistCreate />} />
                   <Route path="/wishlist/:email" element={<Wishlist />} />
+                  <Route path="/wishlist" element={<Wishlists />} />
                   <Route path="/auth/reset-password" element={<Reset />} />
                   <Route path="/auth/login" element={<Login />} />
                   <Route path="/profile" element={<Profile />} />

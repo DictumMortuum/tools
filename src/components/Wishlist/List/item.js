@@ -8,9 +8,41 @@ import Typography from '@mui/material/Typography';
 import { useQueryClient, useMutation } from '@tanstack/react-query';
 import { UserContext } from '../../../context';
 
-const Component = ({ item }) => {
-  const { id, url, reserved, name } = item;
+const DeleteButton = ({ id }) => {
   const { setMsg, setOpen } = React.useContext(UserContext);
+  const queryClient = useQueryClient();
+
+  const deleteWishlistItem = () => {
+    return fetch(`${process.env.REACT_APP_ENDPOINT}/rest/wishlist/${id}`, {
+      method: "DELETE",
+    }).then(res => res.json());
+  }
+
+  const { isPending, mutate } = useMutation({
+    mutationFn: deleteWishlistItem,
+    onSuccess: (data, variables, context) => {
+      queryClient.invalidateQueries({ queryKey: ['wishlist'] });
+    },
+    onError: (error, variables, context) => {
+      setMsg("Something went wrong, please try again.");
+      setOpen(true);
+    }
+  });
+
+  const onClick = () => {
+    mutate();
+  }
+
+  return (
+    <Button variant="contained" disabled={isPending} color="error" onClick={onClick}>
+      Delete
+    </Button>
+  );
+}
+
+const Component = ({ item }) => {
+  const { id, url, reserved, name, user_id } = item;
+  const { state: { user: { user_id: state_user_id }}, setMsg, setOpen } = React.useContext(UserContext);
   const queryClient = useQueryClient();
 
   const reserveWishlistItem = payload => {
@@ -64,6 +96,7 @@ const Component = ({ item }) => {
         {reserved && <Button variant="outlined" disabled={isPending} color="error" onClick={handleUnreserve}>
           Reserved
         </Button>}
+        {state_user_id === user_id && <DeleteButton id={id} />}
         <Button href={url} size="small">Link</Button>
       </CardActions>
     </Card>

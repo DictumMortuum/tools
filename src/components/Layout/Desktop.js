@@ -9,9 +9,11 @@ import MenuIcon from '@mui/icons-material/Menu';
 import IconButton from '@mui/material/IconButton';
 import Snackbar from './Snackbar';
 import Box from '@mui/material/Box';
-import { components } from './Drawer';
+import { UserContext } from '../../context';
 
 const Component = ({ email, splitted, onLogout, state, setState }) => {
+  const { state: { user: { components } } } = React.useContext(UserContext);
+
   return (
     <Stack direction="column" sx={{ height: "100%" }}>
       <Container sx={{ marginBottom: 2 }}>

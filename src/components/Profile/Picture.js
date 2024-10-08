@@ -6,8 +6,15 @@ import CardActions from '@mui/material/CardActions';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 import { UserContext } from '../../context';
-import { updatePlayer } from '../api';
 import { useMutation } from '@tanstack/react-query';
+
+const updatePlayer = ({ id, ...payload }) => fetch(`${process.env.REACT_APP_ENDPOINT}/rest/players/${id}`, {
+  method: "PUT",
+  body: JSON.stringify(payload),
+  headers: {
+    "SA": localStorage.getItem("st"),
+  }
+}).then(res => res.json());
 
 const Update = ({ player, avatar }) => {
   const { setMsg, setOpen } = React.useContext(UserContext);

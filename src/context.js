@@ -1,5 +1,6 @@
 import React, { createContext } from 'react';
-
+import HomeIcon from '@mui/icons-material/Home';
+import FavoriteIcon from '@mui/icons-material/Favorite';
 export const UserContext = createContext(null);
 
 const urlToScreenshot = url => {
@@ -14,6 +15,16 @@ const urlToScreenshot = url => {
   req.searchParams.append("wait_until", "page_loaded");
   return req.href;
 }
+
+const generateComponents = email => [{
+  name: "Home",
+  link: "/",
+  component: <HomeIcon />,
+},{
+  name: "Wishlist",
+  link: email === null ? "/wishlist" : `/wishlist/${email}`,
+  component: <FavoriteIcon />,
+}];
 
 const parseLoginCookie = () => {
   const raw = localStorage.getItem('auth');
@@ -32,6 +43,7 @@ const parseLoginCookie = () => {
     return {
       email: null,
       user_id: null,
+      components: generateComponents(null),
     }
   }
 
@@ -40,6 +52,7 @@ const parseLoginCookie = () => {
   return {
     email,
     user_id: id,
+    components: generateComponents(email),
   }
 }
 
