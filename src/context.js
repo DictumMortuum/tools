@@ -34,6 +34,7 @@ const parseLoginCookie = () => {
     return {
       email: null,
       user_id: null,
+      components: generateComponents(null),
     }
   }
 

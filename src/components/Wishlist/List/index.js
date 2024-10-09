@@ -5,6 +5,7 @@ import { useQuery } from '@tanstack/react-query';
 import ShareIcon from '@mui/icons-material/Share';
 import { Link } from 'react-router-dom';
 import { CopyToClipboard } from 'react-copy-to-clipboard';
+import { UserContext } from '../../../context';
 
 const fetchWishlist = async ({ email }) => {
   const rs = await fetch(`${process.env.REACT_APP_ENDPOINT}/rest/wishlist?filter={"email":"${email}"}`);
@@ -22,10 +23,12 @@ const Container = ({ email }) => {
     return <>Loading...</>;
   }
 
-  return <Component data={data} />
+  return <Component data={data} email={email} />
 }
 
-const Component = ({ data }) => {
+const Component = ({ data, email }) => {
+  const { state: { user: { email: state_email } } } = React.useContext(UserContext);
+
   return (
     <Grid container spacing={2} mt={1}>
       <Grid item xs={12}>
@@ -35,7 +38,7 @@ const Component = ({ data }) => {
               <ShareIcon />
             </IconButton>
           </CopyToClipboard>
-          <Button component={Link} to="/wishlist/create" variant="outlined">Create</Button>
+          {state_email === email && <Button component={Link} to="/wishlist/create" variant="outlined">Create</Button>}
           <Button component={Link} to="/wishlist" variant="outlined">All lists</Button>
         </Box>
       </Grid>
